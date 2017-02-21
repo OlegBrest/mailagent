@@ -51,7 +51,7 @@ namespace mailagent
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(425, 423);
+            this.txtLog.Size = new System.Drawing.Size(427, 423);
             this.txtLog.TabIndex = 0;
             this.txtLog.TabStop = false;
             this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
@@ -175,7 +175,7 @@ namespace mailagent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 570);
+            this.ClientSize = new System.Drawing.Size(427, 570);
             this.Controls.Add(this.mssg_bttn);
             this.Controls.Add(this.mssg_txtbx);
             this.Controls.Add(this.SSL_bx);

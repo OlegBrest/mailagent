@@ -57,18 +57,30 @@ namespace mailagent
                         // Messages are numbered in the interval: [1, messageCount]
                         // Ergo: message numbers are 1-based.
                         // Most servers give the latest message the highest number
-                        for (int i = messageCount; i > (messageCount-10); i--)
+                        for (int i = messageCount; i > (messageCount - 10); i--)
                         {
                             allMessages.Add(client.GetMessage(i));
                         }
-//                        client.Disconnect();
+                        //                        client.Disconnect();
 
                         foreach (OpenPop.Mime.Message msg in allMessages.ToArray())
                         {
-                            txtLog.AppendText("Дата: " + msg.Headers.Date.ToString()+ Environment.NewLine);
+                            txtLog.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
                             txtLog.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
                             txtLog.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
-                            txtLog.AppendText("Сообщение: " +( msg.MessagePart.IsText? msg.MessagePart.GetBodyAsText():" 71. multipart ") + Environment.NewLine + Environment.NewLine);
+                            string body = "";
+                            if (msg.MessagePart.IsText) body = msg.MessagePart.GetBodyAsText();
+                            if (msg.MessagePart.IsMultiPart)
+                            {
+                                List<MessagePart> parts = new List<MessagePart>();
+                                parts = msg.MessagePart.MessageParts;
+                                foreach (MessagePart msg_part in parts)
+                                {
+                                    if (msg_part.IsText) body += (msg_part.GetBodyAsText() + Environment.NewLine);    
+                                }
+                            }
+                            txtLog.AppendText("Сообщение: " + (body) + Environment.NewLine + Environment.NewLine);
+                            txtLog.Update();
                         }
 
                     }
