@@ -76,7 +76,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenPop\OpenPop.csproj">
+    <ProjectReference Include="..\OpenPop\OpenPop.csproj">
       <Project>{75b3e0df-61c3-4643-ab47-dbe1cfe3d303}</Project>
       <Name>OpenPop</Name>
     </ProjectReference>

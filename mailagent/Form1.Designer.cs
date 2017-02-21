@@ -52,7 +52,8 @@ namespace mailagent
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtLog.Size = new System.Drawing.Size(425, 423);
-            this.txtLog.TabIndex = 6;
+            this.txtLog.TabIndex = 0;
+            this.txtLog.TabStop = false;
             this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
             // 
             // txtPort
@@ -61,7 +62,7 @@ namespace mailagent
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(57, 20);
             this.txtPort.TabIndex = 2;
-            this.txtPort.Text = "110";
+            this.txtPort.Text = "995";
             // 
             // txtPass
             // 
@@ -125,7 +126,7 @@ namespace mailagent
             this.btnConnect.Location = new System.Drawing.Point(328, 62);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(85, 28);
-            this.btnConnect.TabIndex = 5;
+            this.btnConnect.TabIndex = 6;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
@@ -147,7 +148,7 @@ namespace mailagent
             this.SSL_bx.Location = new System.Drawing.Point(362, 10);
             this.SSL_bx.Name = "SSL_bx";
             this.SSL_bx.Size = new System.Drawing.Size(46, 17);
-            this.SSL_bx.TabIndex = 12;
+            this.SSL_bx.TabIndex = 5;
             this.SSL_bx.Text = "SSL";
             this.SSL_bx.UseVisualStyleBackColor = true;
             // 
@@ -157,7 +158,7 @@ namespace mailagent
             this.mssg_txtbx.Multiline = true;
             this.mssg_txtbx.Name = "mssg_txtbx";
             this.mssg_txtbx.Size = new System.Drawing.Size(299, 54);
-            this.mssg_txtbx.TabIndex = 13;
+            this.mssg_txtbx.TabIndex = 7;
             this.mssg_txtbx.Text = "mssg to send";
             // 
             // mssg_bttn
@@ -165,7 +166,7 @@ namespace mailagent
             this.mssg_bttn.Location = new System.Drawing.Point(328, 96);
             this.mssg_bttn.Name = "mssg_bttn";
             this.mssg_bttn.Size = new System.Drawing.Size(85, 28);
-            this.mssg_bttn.TabIndex = 14;
+            this.mssg_bttn.TabIndex = 8;
             this.mssg_bttn.Text = "Send";
             this.mssg_bttn.UseVisualStyleBackColor = true;
             this.mssg_bttn.Click += new System.EventHandler(this.mssg_bttn_Click);
