@@ -20,7 +20,7 @@ namespace mailagent
     public partial class Form1 : Form
     {
         Pop3Client client = new Pop3Client();
-
+        List<OpenPop.Mime.Message> allMessages;
         public Form1()
         {
             InitializeComponent();
@@ -52,17 +52,19 @@ namespace mailagent
                         txtLog.Update();
 
                         // We want to download all messages
-                        List<OpenPop.Mime.Message> allMessages = new List<OpenPop.Mime.Message>(messageCount);
+                        allMessages = new List<OpenPop.Mime.Message>(messageCount);
 
                         // Messages are numbered in the interval: [1, messageCount]
                         // Ergo: message numbers are 1-based.
                         // Most servers give the latest message the highest number
                         for (int i = messageCount; i > (messageCount - 10); i--)
                         {
-                            allMessages.Add(client.GetMessage(i));
+                            OpenPop.Mime.Message curr_mssg = client.GetMessage(i);
+                            allMessages.Add(curr_mssg);
+                            this.mail_gridview.Rows.Add(curr_mssg.Headers.From.MailAddress.ToString(), (messageCount-i)); 
                         }
                         //                        client.Disconnect();
-
+                        /*
                         foreach (OpenPop.Mime.Message msg in allMessages.ToArray())
                         {
                             txtLog.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
@@ -82,7 +84,7 @@ namespace mailagent
                             txtLog.AppendText("Сообщение: " + (body) + Environment.NewLine + Environment.NewLine);
                             txtLog.Update();
                         }
-
+                            */
                     }
                     catch (Exception ex)
                     {
@@ -136,6 +138,49 @@ namespace mailagent
         private void txtLog_TextChanged(object sender, EventArgs e)
         {
             this.txtLog.ScrollToCaret();
+        }
+
+        // view selected message
+        private void mail_gridview_CellClick(object sender, DataGridViewCellEventArgs e)
+        {                    
+            mail_mssg_txtbx.Text = "";
+            OpenPop.Mime.Message msg = allMessages[(int)this.mail_gridview.Rows[e.RowIndex].Cells[mail_grid_column_ID.Index].Value];
+            mail_mssg_txtbx.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
+            mail_mssg_txtbx.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
+            mail_mssg_txtbx.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
+            string body = "";
+            string html = "";
+            if (msg.MessagePart.IsText)
+            {
+                body = msg.MessagePart.GetBodyAsText();
+            }
+            if (msg.MessagePart.IsMultiPart)
+            {
+                List<MessagePart> parts = new List<MessagePart>();
+                parts = msg.MessagePart.MessageParts;
+                foreach (MessagePart msg_part in parts)
+                {
+                    if (msg_part.IsText) body += (msg_part.GetBodyAsText() + Environment.NewLine);
+                }
+            }
+
+            // mssg reworking
+            if (body.ToLower().Contains("<!DOCTYPE".ToLower()))
+            {
+                html = body.Substring(body.ToLower().IndexOf("<!DOCTYPE".ToLower()), body.Length - body.ToLower().IndexOf("<!DOCTYPE".ToLower()));
+                body = body.Substring(0,body.Length - html.Length);
+            }
+
+            if ((body.ToLower().Contains("<style>".ToLower()))  && (html == ""))
+            {
+                html = body.Substring(body.ToLower().IndexOf("<style>".ToLower()), body.Length - body.ToLower().IndexOf("<style>".ToLower()));
+                body = body.Substring(0, body.Length - html.Length);
+            }
+            if (html == "") html = body;
+            mail_mssg_txtbx.AppendText("Сообщение: " + (body) + Environment.NewLine + Environment.NewLine);
+            mail_mssg_txtbx.Update();
+            mail_web.DocumentText = html;
+            mail_web.Update();
         }
     }
 }
