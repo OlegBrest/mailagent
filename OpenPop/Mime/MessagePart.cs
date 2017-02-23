@@ -526,7 +526,10 @@ namespace OpenPop.Mime
             int index_doc = body.ToLower().IndexOf("<!DOCTYPE".ToLower());
             int index_style = body.ToLower().IndexOf("<style>".ToLower());
             int index_html = body.ToLower().IndexOf("<html>".ToLower());
-            html_type = (index_doc < index_style? (index_doc < index_html? 0:2):(index_style<index_html? 2:1));
+            if (index_doc < 0) index_doc = int.MaxValue;
+            if (index_style < 0) index_style = int.MaxValue;
+            if (index_html < 0) index_html = int.MaxValue;
+            html_type = (index_doc < index_style? (index_doc < index_html? 0 : 2):(index_style<index_html? 1:2));
             if ((index_doc == index_style) && (index_style == index_html)) text = body;
             else
             {
@@ -566,7 +569,10 @@ namespace OpenPop.Mime
             int index_doc = body.ToLower().IndexOf("<!DOCTYPE".ToLower());
             int index_style = body.ToLower().IndexOf("<style>".ToLower());
             int index_html = body.ToLower().IndexOf("<html>".ToLower());
-            html_type = (index_doc < index_style ? (index_doc < index_html ? 0 : 2) : (index_style < index_html ? 2 : 1));
+            if (index_doc < 0) index_doc = int.MaxValue;
+            if (index_style < 0) index_style = int.MaxValue;
+            if (index_html < 0) index_html = int.MaxValue;
+            html_type = (index_doc < index_style ? (index_doc < index_html ? 0 : 2) : (index_style < index_html ? 1 : 2));
             if ((index_doc == index_style) && (index_style == index_html)) text = body;
             else
             {

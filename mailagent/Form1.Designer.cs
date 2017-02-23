@@ -331,7 +331,7 @@ namespace mailagent
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(542, 392);
+            this.tabPage2.Size = new System.Drawing.Size(542, 393);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "HTML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -342,7 +342,7 @@ namespace mailagent
             this.mail_web.Location = new System.Drawing.Point(3, 3);
             this.mail_web.MinimumSize = new System.Drawing.Size(20, 20);
             this.mail_web.Name = "mail_web";
-            this.mail_web.Size = new System.Drawing.Size(536, 386);
+            this.mail_web.Size = new System.Drawing.Size(536, 387);
             this.mail_web.TabIndex = 0;
             // 
             // Form1

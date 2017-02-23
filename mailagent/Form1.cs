@@ -36,19 +36,19 @@ namespace mailagent
                 try
                 {
                     client.Connect(txtServer.Text, Convert.ToInt32(txtPort.Text), SSL_bx.Checked);
-                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 36. Server connected.\r\n\r\n");
+                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 39. Server connected.\r\n\r\n");
                     txtLog.Update();
                     // Authenticate ourselves towards the server
                     try
                     {
                         client.Authenticate(txtUser.Text, txtPass.Text);
-                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 49. Server Authenticated.\r\n\r\n");
+                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 44. Server Authenticated.\r\n\r\n");
                         txtLog.Update();
 
                         // Get the number of messages in the inbox
                         List<string> mssgs = client.GetMessageUids();
                         int messageCount = mssgs.Count;
-                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 54.Total messages: " + messageCount.ToString() + "\r\n\r\n");
+                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 51. Total messages: " + messageCount.ToString() + "\r\n\r\n");
                         txtLog.Update();
 
                         // We want to download all messages
@@ -66,17 +66,17 @@ namespace mailagent
                     }
                     catch (Exception ex)
                     {
-                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 71.Error: " + ex.Message + "\r\n\r\n");
+                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 69. Error: " + ex.Message + "\r\n\r\n");
                         txtLog.Update();
                         client.Disconnect();
                         btnConnect.Text = "Connect";
-                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 73.Disconnected.\r\n\r\n");
+                        txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 73. Disconnected.\r\n\r\n");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
-                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 79.Error: " + ex.Message + "\r\n\r\n");
+                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 79. Error: " + ex.Message + "\r\n\r\n");
                     txtLog.Update();
                     btnConnect.Text = "Connect";
                     return;
@@ -86,7 +86,7 @@ namespace mailagent
             {
                 btnConnect.Text = "Connect";
                 client.Disconnect();
-                txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 89.Disconnected.\r\n\r\n");
+                txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 89. Disconnected.\r\n\r\n");
             }
         }
 
@@ -98,18 +98,18 @@ namespace mailagent
                 try
                 {
                     client.SendCommand(this.mssg_txtbx.Text);
-                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 101.Sending :  " + this.mssg_txtbx.Text + ".\r\n\r\n");
-                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 102.Getting :  " + client.GetServerResponse() + ".\r\n\r\n");
+                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 101. Sending :  " + this.mssg_txtbx.Text + ".\r\n\r\n");
+                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 102. Getting :  " + client.GetServerResponse() + ".\r\n\r\n");
                 }
                 catch (Exception ex)
                 {
-                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 106.ERROR :" + ex.Message + ".\r\n\r\n");
+                    txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 106. ERROR :" + ex.Message + ".\r\n\r\n");
                 }
 
             }
             else
             {
-                txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 112.No connection.\r\n\r\n");
+                txtLog.AppendText(DateTime.Now.ToLongTimeString() + " 112. No connection.\r\n\r\n");
             }
         }
 
@@ -132,42 +132,55 @@ namespace mailagent
         // view selected message
         private void mail_gridview_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            mail_mssg_txtbx.Text = "";
-
-            OpenPop.Mime.Message msg = allMessages[(int)this.mail_gridview.Rows[e.RowIndex].Cells[mail_grid_column_ID.Index].Value];
-            mail_mssg_txtbx.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
-            mail_mssg_txtbx.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
-            mail_mssg_txtbx.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
-            //            string body = "";
-            //            string html = "";
-            if (msg.MessagePart.IsText)
+            if (e.RowIndex >= 0)
             {
-                txtLog.AppendText(" 133. Getting simple message from server\r\n\r\n");
-                txtLog.Update();
-                //                body = msg.MessagePart.GetBodyAsText();
-                mail_mssg_txtbx.AppendText(msg.MessagePart.Get_Mail_text());
-                mail_web.DocumentText = msg.MessagePart.Get_Mail_html();
-                mail_web.Update();
-                mail_mssg_txtbx.Update();
-            }
-            if (msg.MessagePart.IsMultiPart)
-            {
-                txtLog.AppendText(" 143. Getting parted message from server\r\n\r\n");
-                List<MessagePart> parts = new List<MessagePart>();
-                parts = msg.MessagePart.MessageParts;
-                foreach (MessagePart msg_part in parts)
+                mail_mssg_txtbx.Text = "";
+                string htm_msg = "";
+                string txt_msg = "";
+                DisplayHtml("");
+                OpenPop.Mime.Message msg = allMessages[(int)this.mail_gridview.Rows[e.RowIndex].Cells[mail_grid_column_ID.Index].Value];
+                mail_mssg_txtbx.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
+                mail_mssg_txtbx.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
+                mail_mssg_txtbx.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
+                //            string body = "";
+                //            string html = "";
+                if (msg.MessagePart.IsText)
                 {
-                    if (msg_part.IsText)
+                    txtLog.AppendText(" 145. Getting simple message from server\r\n\r\n");
+                    txtLog.Update();
+                    //                body = msg.MessagePart.GetBodyAsText();
+                    txt_msg = msg.MessagePart.Get_Mail_text();
+                    mail_mssg_txtbx.AppendText(txt_msg);
+                    htm_msg = msg.MessagePart.Get_Mail_html();
+                    DisplayHtml(htm_msg);
+                    mail_web.Update();
+                    mail_mssg_txtbx.Update();
+                }
+                if (msg.MessagePart.IsMultiPart)
+                {
+                    txtLog.AppendText(" 155. Getting parted message from server\r\n\r\n"); 
+                    txtLog.Update();
+                    List<MessagePart> parts = new List<MessagePart>();
+                    parts = msg.MessagePart.MessageParts;
+                    foreach (MessagePart msg_part in parts)
                     {
-                        txtLog.Update();
-                        //                        body += (msg_part.GetBodyAsText() + Environment.NewLine);
-                        mail_mssg_txtbx.AppendText(msg_part.Get_Mail_text());
-                        string htm_msg = msg_part.Get_Mail_html();
-                        if (htm_msg != "")
+                        if (msg_part.IsText)
                         {
-                            DisplayHtml( htm_msg);
+                            //                        body += (msg_part.GetBodyAsText() + Environment.NewLine);
+                            txt_msg = msg_part.Get_Mail_text();
+                            mail_mssg_txtbx.AppendText(txt_msg);
+                            mail_mssg_txtbx.Update();
+                            htm_msg = msg_part.Get_Mail_html();
+                            if (htm_msg != "")
+                            {
+                                DisplayHtml(htm_msg);
+                            }
                         }
                     }
+                }
+                if ((htm_msg == "") && (mail_web.DocumentText == ""))
+                {
+                    DisplayHtml(txt_msg);
                 }
             }
         }
