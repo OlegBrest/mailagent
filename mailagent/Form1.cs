@@ -61,30 +61,8 @@ namespace mailagent
                         {
                             OpenPop.Mime.Message curr_mssg = client.GetMessage(i);
                             allMessages.Add(curr_mssg);
-                            this.mail_gridview.Rows.Add(curr_mssg.Headers.From.MailAddress.ToString(), (messageCount-i)); 
+                            this.mail_gridview.Rows.Add(curr_mssg.Headers.From.MailAddress.ToString(), (messageCount - i));
                         }
-                        //                        client.Disconnect();
-                        /*
-                        foreach (OpenPop.Mime.Message msg in allMessages.ToArray())
-                        {
-                            txtLog.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
-                            txtLog.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
-                            txtLog.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
-                            string body = "";
-                            if (msg.MessagePart.IsText) body = msg.MessagePart.GetBodyAsText();
-                            if (msg.MessagePart.IsMultiPart)
-                            {
-                                List<MessagePart> parts = new List<MessagePart>();
-                                parts = msg.MessagePart.MessageParts;
-                                foreach (MessagePart msg_part in parts)
-                                {
-                                    if (msg_part.IsText) body += (msg_part.GetBodyAsText() + Environment.NewLine);    
-                                }
-                            }
-                            txtLog.AppendText("Сообщение: " + (body) + Environment.NewLine + Environment.NewLine);
-                            txtLog.Update();
-                        }
-                            */
                     }
                     catch (Exception ex)
                     {
@@ -140,47 +118,58 @@ namespace mailagent
             this.txtLog.ScrollToCaret();
         }
 
+        //send html in browser
+        private void DisplayHtml(string html)
+        {
+            mail_web.Navigate("about:blank");
+            if (mail_web.Document != null)
+            {
+                mail_web.Document.Write(string.Empty);
+            }
+            mail_web.DocumentText = html;
+        }
+
         // view selected message
         private void mail_gridview_CellClick(object sender, DataGridViewCellEventArgs e)
-        {                    
+        {
             mail_mssg_txtbx.Text = "";
+
             OpenPop.Mime.Message msg = allMessages[(int)this.mail_gridview.Rows[e.RowIndex].Cells[mail_grid_column_ID.Index].Value];
             mail_mssg_txtbx.AppendText("Дата: " + msg.Headers.Date.ToString() + Environment.NewLine);
             mail_mssg_txtbx.AppendText("Отправитель: " + msg.Headers.From.MailAddress.ToString() + Environment.NewLine);
             mail_mssg_txtbx.AppendText("Тема: " + msg.Headers.Subject + Environment.NewLine);
-            string body = "";
-            string html = "";
+            //            string body = "";
+            //            string html = "";
             if (msg.MessagePart.IsText)
             {
-                body = msg.MessagePart.GetBodyAsText();
+                txtLog.AppendText(" 133. Getting simple message from server\r\n\r\n");
+                txtLog.Update();
+                //                body = msg.MessagePart.GetBodyAsText();
+                mail_mssg_txtbx.AppendText(msg.MessagePart.Get_Mail_text());
+                mail_web.DocumentText = msg.MessagePart.Get_Mail_html();
+                mail_web.Update();
+                mail_mssg_txtbx.Update();
             }
             if (msg.MessagePart.IsMultiPart)
             {
+                txtLog.AppendText(" 143. Getting parted message from server\r\n\r\n");
                 List<MessagePart> parts = new List<MessagePart>();
                 parts = msg.MessagePart.MessageParts;
                 foreach (MessagePart msg_part in parts)
                 {
-                    if (msg_part.IsText) body += (msg_part.GetBodyAsText() + Environment.NewLine);
+                    if (msg_part.IsText)
+                    {
+                        txtLog.Update();
+                        //                        body += (msg_part.GetBodyAsText() + Environment.NewLine);
+                        mail_mssg_txtbx.AppendText(msg_part.Get_Mail_text());
+                        string htm_msg = msg_part.Get_Mail_html();
+                        if (htm_msg != "")
+                        {
+                            DisplayHtml( htm_msg);
+                        }
+                    }
                 }
             }
-
-            // mssg reworking
-            if (body.ToLower().Contains("<!DOCTYPE".ToLower()))
-            {
-                html = body.Substring(body.ToLower().IndexOf("<!DOCTYPE".ToLower()), body.Length - body.ToLower().IndexOf("<!DOCTYPE".ToLower()));
-                body = body.Substring(0,body.Length - html.Length);
-            }
-
-            if ((body.ToLower().Contains("<style>".ToLower()))  && (html == ""))
-            {
-                html = body.Substring(body.ToLower().IndexOf("<style>".ToLower()), body.Length - body.ToLower().IndexOf("<style>".ToLower()));
-                body = body.Substring(0, body.Length - html.Length);
-            }
-            if (html == "") html = body;
-            mail_mssg_txtbx.AppendText("Сообщение: " + (body) + Environment.NewLine + Environment.NewLine);
-            mail_mssg_txtbx.Update();
-            mail_web.DocumentText = html;
-            mail_web.Update();
         }
     }
 }

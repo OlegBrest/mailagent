@@ -169,13 +169,13 @@ namespace mailagent
             this.mssg_txtbx.Location = new System.Drawing.Point(8, 32);
             this.mssg_txtbx.Multiline = true;
             this.mssg_txtbx.Name = "mssg_txtbx";
-            this.mssg_txtbx.Size = new System.Drawing.Size(305, 48);
+            this.mssg_txtbx.Size = new System.Drawing.Size(146, 48);
             this.mssg_txtbx.TabIndex = 7;
             this.mssg_txtbx.Text = "mssg to server";
             // 
             // mssg_bttn
             // 
-            this.mssg_bttn.Location = new System.Drawing.Point(320, 32);
+            this.mssg_bttn.Location = new System.Drawing.Point(160, 32);
             this.mssg_bttn.Name = "mssg_bttn";
             this.mssg_bttn.Size = new System.Drawing.Size(85, 48);
             this.mssg_bttn.TabIndex = 8;
@@ -231,7 +231,7 @@ namespace mailagent
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(741, 478);
-            this.splitContainer1.SplitterDistance = 56;
+            this.splitContainer1.SplitterDistance = 55;
             this.splitContainer1.TabIndex = 13;
             // 
             // txtLog
@@ -241,7 +241,7 @@ namespace mailagent
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(741, 56);
+            this.txtLog.Size = new System.Drawing.Size(741, 55);
             this.txtLog.TabIndex = 0;
             this.txtLog.TabStop = false;
             // 
@@ -258,7 +258,7 @@ namespace mailagent
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer2.Size = new System.Drawing.Size(741, 418);
+            this.splitContainer2.Size = new System.Drawing.Size(741, 419);
             this.splitContainer2.SplitterDistance = 187;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -275,7 +275,7 @@ namespace mailagent
             this.mail_gridview.Name = "mail_gridview";
             this.mail_gridview.ReadOnly = true;
             this.mail_gridview.RowHeadersVisible = false;
-            this.mail_gridview.Size = new System.Drawing.Size(187, 418);
+            this.mail_gridview.Size = new System.Drawing.Size(187, 419);
             this.mail_gridview.TabIndex = 0;
             this.mail_gridview.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mail_gridview_CellClick);
             // 
@@ -301,7 +301,7 @@ namespace mailagent
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(550, 418);
+            this.tabControl1.Size = new System.Drawing.Size(550, 419);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -310,7 +310,7 @@ namespace mailagent
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(542, 392);
+            this.tabPage1.Size = new System.Drawing.Size(542, 393);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Текст";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -322,7 +322,7 @@ namespace mailagent
             this.mail_mssg_txtbx.Multiline = true;
             this.mail_mssg_txtbx.Name = "mail_mssg_txtbx";
             this.mail_mssg_txtbx.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.mail_mssg_txtbx.Size = new System.Drawing.Size(536, 386);
+            this.mail_mssg_txtbx.Size = new System.Drawing.Size(536, 387);
             this.mail_mssg_txtbx.TabIndex = 0;
             // 
             // tabPage2
@@ -331,7 +331,7 @@ namespace mailagent
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(542, 414);
+            this.tabPage2.Size = new System.Drawing.Size(542, 392);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "HTML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -342,7 +342,7 @@ namespace mailagent
             this.mail_web.Location = new System.Drawing.Point(3, 3);
             this.mail_web.MinimumSize = new System.Drawing.Size(20, 20);
             this.mail_web.Name = "mail_web";
-            this.mail_web.Size = new System.Drawing.Size(536, 408);
+            this.mail_web.Size = new System.Drawing.Size(536, 386);
             this.mail_web.TabIndex = 0;
             // 
             // Form1
